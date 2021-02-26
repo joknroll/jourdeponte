@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mon oeuf</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <style>
+       .egg {
+          width: 170px;
+          height: 250px;
+          background: hsl(48, 100%, 67%);
+          display: block;
+          -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+          border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      }
+      .egg-content {
+        height: 100%;
+        padding-top: 50px;
+        text-align: center;
+      }
+      .margin-top-5 {
+        margin-top : 5px;
+      }
+      color-red {
+        color: red;
+      }
+      color-green {
+        color: green;
+      }
+      color-blue {
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+        Trouver la date de ponte de l'oeuf selon sa DCR*, facilement !
+      </h1>
+      <p class="subtitle">
+        Aujourd'hui, un oeuf extra frais** a une DCR comprise entre le <strong id="from"></strong> et le <strong id="to"></strong>
+      </p>
+
+      <div class="columns is-mobile is-centered ">
+        <div class="column is-one-quarter">
+
+            <div class="egg">
+              <div class="column is-vcentered egg-content">
+              <label class="has-text-danger" for="dcrAvailable">DCR</label>
+              <select name="dcrAvailable" id="dcrAvailable" onchange="changeFunc(value)">
+              </select> 
+
+              <p class="margin-top-5">  Pondu le: <strong><span class="has-text-info" id="ponteDay"></span></strong> </p>
+              <p> Extra frais jusque: <strong><span class="has-text-success" id="extraDay"></span></strong> </p>
+              </div>
+            </div>
+
+        </div>
+      </div>
+
+      <p>* DCR : Date de Consommation Recommandée , 28 jours après la date de ponte, <a href="https://fr.wikipedia.org/wiki/Date_de_consommation_recommand%C3%A9e">wikipedia DCR</a> </p>
+
+      <p>** Un oeuf est extra frais maximum 9 jours après la date de ponte. Pas la peine de vous expliquer que c'est le moment ideal pour le manger :) </p> 
+    </div>
+  </section>
+  <script>
+    var now = new Date();
+    var from = new Date();
+    from.setDate(now.getDate()+18);
+    var to = new Date();
+    to.setDate(now.getDate()+27);    
+    document.getElementById("from").innerHTML = from.toLocaleDateString();
+    document.getElementById("to").innerHTML = to.toLocaleDateString();
+    
+    document.getElementById("dcrAvailable");
+
+    for(var i = 28; i > 0; i--) {
+      var tempDate = new Date();
+      tempDate.setDate(now.getDate()+i); 
+      var opt = document.createElement("option");
+      opt.value= i;
+      opt.innerHTML = tempDate.toLocaleDateString();  
+      document.getElementById("dcrAvailable").appendChild(opt);
+    }
+
+    function changeFunc(i) {
+      console.log(parseInt(i));
+      var index = parseInt(i);
+
+      var dcrDate = new Date();
+      
+      dcrDate.setDate(now.getDate()+index);
+      console.log("dcrDate");
+      console.log(dcrDate.toLocaleDateString());
+      
+
+      dcrDate.setDate(dcrDate.getDate()-28);
+      document.getElementById("ponteDay").innerHTML = dcrDate.toLocaleDateString();
+      
+      dcrDate.setDate(dcrDate.getDate()+9);
+      document.getElementById("extraDay").innerHTML = dcrDate.toLocaleDateString();
+
+    }
+
+    changeFunc("28");
+
+  </script>
+  </body>
+</html>
